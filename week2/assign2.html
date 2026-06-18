@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign2</title>
+    <script>
+        // TASK1
+        function func1(name) { 
+            const positions = {
+                "悟空": [0, 0],
+                "辛巴": [-3, 3],
+                "丁滿": [-1, 4],
+                "貝吉塔": [-4, -1],
+                "特南克斯": [1, -2],
+                "弗利沙": [4, -1]
+            };
+
+            const sides = {
+                "悟空": "left",
+                "辛巴": "left",
+                "貝吉塔": "left",
+                "特南克斯": "left",
+                "弗利沙": "right",
+                "丁滿": "right"
+            };
+            const target = positions[name];
+            let minDistance = Infinity;
+            let maxDistance = 0;
+            let closestNames = [];
+            let farthestNames = [];
+
+            for (let otherName in positions) {
+                if (otherName === name) {
+                    continue;
+                }
+
+                const otherPos = positions[otherName];
+
+                let distance =
+                    Math.abs(target[0] - otherPos[0]) +
+                    Math.abs(target[1] - otherPos[1]);
+                if (sides[name] !== sides[otherName]) {
+                    distance += 2;
+                }
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestNames = [otherName];
+                } else if (distance === minDistance) {
+                    closestNames.push(otherName);
+                }
+
+                if (distance > maxDistance) {
+                    maxDistance = distance;
+                    farthestNames = [otherName];
+                } else if (distance === maxDistance) {
+                    farthestNames.push(otherName);
+                }
+            }
+
+            console.log("最遠" + farthestNames.join("、") + "；最近" + closestNames.join("、"));
+        }
+
+        console.log("=========TASK1===========")
+        func1("辛巴");  // print 最遠弗利沙；最近丁滿、⾙吉塔
+        func1("悟空");  // print 最遠丁滿、弗利沙；最近特南克斯
+        func1("弗利沙"); // print 最遠⾟巴，最近特南克斯
+        func1("特南克斯");  // print 最遠丁滿，最近悟空
+        
+        // TASK2
+        const booked = {
+            "S1": Array(25).fill(0),
+            "S2": Array(25).fill(0),
+            "S3": Array(25).fill(0)
+        };
+
+        function func2(ss, start, end, criteria) {
+            let field;
+            let value;
+            let op;
+
+            if (criteria.includes(">=")) {
+                [field, value] = criteria.split(">=");
+                op = ">=";
+            } else if (criteria.includes("<=")) {
+                [field, value] = criteria.split("<=");
+                op = "<=";
+            } else {
+                [field, value] = criteria.split("=");
+                op = "=";
+            }
+
+            if (field !== "name") {
+                value = Number(value);
+            }
+
+            let bestService = null;
+            let bestDiff = Infinity;
+
+            for (let s of ss) {
+                if (op === "=") {
+                    if (s[field] === value) {
+                        const service = s["name"];
+
+                        let available = true;
+                        for (let i = start; i < end; i++) {
+                            if (booked[service][i] === 1) {
+                                available = false;
+                                break;
+                            }
+                        }
+
+                        if (available) {
+                            for (let i = start; i < end; i++) {
+                                booked[service][i] = 1;
+                            }
+                            console.log(service);
+                        } else {
+                            console.log("Sorry");
+                        }
+
+                        return;
+                    }
+                } else if (op === ">=") {
+                    if (s[field] >= value) {
+                        const diff = Math.abs(s[field] - value);
+
+                        if (diff < bestDiff) {
+                            bestDiff = diff;
+                            bestService = s["name"];
+                        }
+                    }
+                } else if (op === "<=") {
+                    if (s[field] <= value) {
+                        const diff = Math.abs(s[field] - value);
+
+                        if (diff < bestDiff) {
+                            bestDiff = diff;
+                            bestService = s["name"];
+                        }
+                    }
+                }
+            }
+
+            if (bestService === null) {
+                console.log("Sorry");
+                return;
+            }
+
+            let available = true;
+            for (let i = start; i < end; i++) {
+                if (booked[bestService][i] === 1) {
+                    available = false;
+                    break;
+                }
+            }
+
+            if (available) {
+                for (let i = start; i < end; i++) {
+                    booked[bestService][i] = 1;
+                }
+                console.log(bestService);
+            } else {
+                console.log("Sorry");
+            }
+        }
+
+        const services = [
+            {"name": "S1", "r": 4.5, "c": 1000},
+            {"name": "S2", "r": 3, "c": 1200},
+            {"name": "S3", "r": 3.8, "c": 800}
+        ];
+        console.log("=========TASK2===========")
+        func2(services, 15, 17, "c>=800");   // S3
+        func2(services, 11, 13, "r<=4");     // S3
+        func2(services, 10, 12, "name=S3");  // Sorry
+        func2(services, 15, 18, "r>=4.5");   // S1
+        func2(services, 16, 18, "r>=4");     // Sorry
+        func2(services, 13, 17, "name=S1");  // Sorry
+        func2(services, 8, 9, "c<=1500");    // S2
+
+        // TASK3
+        function func3(index) {
+            let num = 25;
+            const changes = [-2, -3, 1, 2];
+
+            for (let i = 0; i < index; i++) {
+                num += changes[i % 4];
+            }
+
+            console.log(num);
+        }
+
+        console.log("=========TASK3===========")
+        func3(1);   // 23
+        func3(5);   // 21
+        func3(10);  // 16
+        func3(30);  // 6
+
+        // TASK4
+        function func4(sp, stat, n) {
+            let bestIndex = -1;
+            let bestDiff = Infinity;
+
+            for (let i = 0; i < sp.length; i++) {
+                if (stat[i] === "0") {
+                    const diff = Math.abs(sp[i] - n);
+
+                    if (diff < bestDiff) {
+                        bestDiff = diff;
+                        bestIndex = i;
+                    }
+                }
+            }
+
+            console.log(bestIndex);
+        }
+
+        console.log("=========TASK4===========")
+        func4([3, 1, 5, 4, 3, 2], "101000", 2); // 5
+        func4([1, 0, 5, 1, 3], "10100", 4);     // 4
+        func4([4, 6, 5, 8], "1000", 4);         // 2
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

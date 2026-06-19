@@ -99,46 +99,50 @@
             let bestDiff = Infinity;
 
             for (let s of ss) {
+                const service = s["name"];
+
+                let matched = false;
+
                 if (op === "=") {
                     if (s[field] === value) {
-                        const service = s["name"];
-
-                        let available = true;
-                        for (let i = start; i < end; i++) {
-                            if (booked[service][i] === 1) {
-                                available = false;
-                                break;
-                            }
-                        }
-
-                        if (available) {
-                            for (let i = start; i < end; i++) {
-                                booked[service][i] = 1;
-                            }
-                            console.log(service);
-                        } else {
-                            console.log("Sorry");
-                        }
-
-                        return;
+                        matched = true;
                     }
                 } else if (op === ">=") {
                     if (s[field] >= value) {
-                        const diff = Math.abs(s[field] - value);
-
-                        if (diff < bestDiff) {
-                            bestDiff = diff;
-                            bestService = s["name"];
-                        }
+                        matched = true;
                     }
                 } else if (op === "<=") {
                     if (s[field] <= value) {
-                        const diff = Math.abs(s[field] - value);
+                        matched = true;
+                    }
+                }
 
-                        if (diff < bestDiff) {
-                            bestDiff = diff;
-                            bestService = s["name"];
-                        }
+                if (!matched) {
+                    continue;
+                }
+
+                let available = true;
+
+                for (let i = start; i < end; i++) {
+                    if (booked[service][i] === 1) {
+                        available = false;
+                        break;
+                    }
+                }
+
+                if (!available) {
+                    continue;
+                }
+
+                if (field === "name") {
+                    bestService = service;
+                    break;
+                } else {
+                    const diff = Math.abs(s[field] - value);
+
+                    if (diff < bestDiff) {
+                        bestDiff = diff;
+                        bestService = service;
                     }
                 }
             }
@@ -148,22 +152,11 @@
                 return;
             }
 
-            let available = true;
             for (let i = start; i < end; i++) {
-                if (booked[bestService][i] === 1) {
-                    available = false;
-                    break;
-                }
+                booked[bestService][i] = 1;
             }
 
-            if (available) {
-                for (let i = start; i < end; i++) {
-                    booked[bestService][i] = 1;
-                }
-                console.log(bestService);
-            } else {
-                console.log("Sorry");
-            }
+            console.log(bestService);
         }
 
         const services = [
@@ -179,6 +172,7 @@
         func2(services, 16, 18, "r>=4");     // Sorry
         func2(services, 13, 17, "name=S1");  // Sorry
         func2(services, 8, 9, "c<=1500");    // S2
+        func2(services, 8, 9, "c<=1500")     // S1
 
         // TASK3
         function func3(index) {

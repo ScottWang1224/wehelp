@@ -83,47 +83,49 @@ def func2(ss, start, end, criteria):
     best_diff = float("inf")
 
     for s in ss:
+        service = s["name"]
+        matched = False
+
         if op == "=":
             if s[field] == value:
-                service = s["name"]
-                available = True
-                for i in range(start, end):
-                    if booked[service][i] == 1:
-                        available = False
-                        break
-                if available:
-                                      for i in range(start, end):
-                                           booked[service][i] = 1
-                                      print(service)
-                else:
-                      print("Sorry")
-                return
-            
+                matched = True
         elif op == ">=":
             if s[field] >= value:
-                diff = abs(s[field] - value)
-                if diff < best_diff:
-                    best_diff = diff
-                    best_service = s["name"]
-
+                    matched = True
         elif op == "<=":
             if s[field] <= value:
-                diff = abs(s[field] - value)
-                if diff < best_diff:
-                    best_diff = diff
-                    best_service = s["name"]
+                   matched = True
+        
+        if not matched:
+            continue
 
-    available = True
+        available = True
+        for i in range(start, end):
+            if booked[service][i] == 1:
+                  available = False
+                  break
+        if not available:
+              continue
+            
+        if field == "name":
+            best_service = service
+            break
+        else:
+            diff = abs(s[field] - value)
+
+            if diff < best_diff:
+                best_diff = diff
+                best_service = service
+ 
+    if best_service == None:
+        print("Sorry")
+        return
+    
     for i in range(start, end):
-                    if booked[best_service][i] == 1:
-                        available = False
-                        break
-    if available:
-         for i in range(start, end):
-              booked[best_service][i] = 1
-         print(best_service)
-    else:
-         print("Sorry")
+        booked[best_service][i] = 1
+    
+    print(best_service)
+                 
 
 print("=========TASK2===========")
 
@@ -139,6 +141,7 @@ func2(services, 15, 18, "r>=4.5")  # S1
 func2(services, 16, 18, "r>=4")  # Sorry 
 func2(services, 13, 17, "name=S1")  # Sorry 
 func2(services, 8, 9, "c<=1500")  # S2
+func2(services, 8, 9, "c<=1500")    # S1
 
 # =========TASK3============
 

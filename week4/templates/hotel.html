@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <title>旅館資訊</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <header class="header">旅館的資訊</header>
+
+    <main class="content">
+      <div class="container">
+        {% if hotel %}
+        <div class="message hotel-info">
+          <span>{{ hotel.chinese_name }}</span>
+          <span>、</span>
+          <span>{{ hotel.english_name }}</span>
+          <span>、</span>
+          <span>{{ hotel.phone }}</span>
+        </div>
+        {% else %}
+        <div class="message">查詢不到相關資料</div>
+        {% endif %}
+
+        <a href="/">返回首頁</a>
+      </div>
+    </main>
+  </body>
+</html>

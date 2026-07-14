@@ -1,0 +1,60 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.header {
+  padding: 18px;
+  background-color: #223a4d;
+  color: white;
+  text-align: center;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.section {
+  padding: 28px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.section h2 {
+  font-size: 20px;
+}
+
+.form-row {
+  margin: 12px 0;
+}
+
+.form-row label {
+  display: inline-block;
+  width: 60px;
+}
+
+.form-row input {
+  width: 220px;
+  padding: 6px;
+}
+
+.message-item {
+  margin: 12px 0;
+}
+
+.delete-button {
+  margin-left: 10px;
+  cursor: pointer;
+}

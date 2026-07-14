@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>會員頁</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <h1>歡迎光臨，這是會員頁</h1>
+    </header>
+
+    <main class="container">
+      <section class="section">
+        <p>{{ member.name }}，歡迎登入系統</p>
+        <a href="/logout">登出系統</a>
+      </section>
+
+      <section class="section">
+        <h2>快來留言吧</h2>
+
+        <form id="message-form">
+          <div class="form-row">
+            <label for="message-content">內容</label>
+            <input id="message-content" type="text" />
+          </div>
+
+          <button type="submit">送出</button>
+        </form>
+      </section>
+
+      <section class="section">
+        <div id="message-list"></div>
+      </section>
+    </main>
+
+    <script src="/static/script.js?v=4"></script>
+  </body>
+</html>

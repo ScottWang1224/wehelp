@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>會員系統</title>
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+
+  <body>
+    <header class="header">
+      <h1>歡迎光臨，請註冊登入系統</h1>
+    </header>
+
+    <main class="container">
+      <section class="section">
+        <h2>註冊帳號</h2>
+
+        <form id="signup-form" action="/signup" method="post">
+          <div class="form-row">
+            <label for="signup-name">姓名</label>
+            <input id="signup-name" type="text" name="name" />
+          </div>
+
+          <div class="form-row">
+            <label for="signup-email">信箱</label>
+            <input id="signup-email" type="text" name="email" />
+          </div>
+
+          <div class="form-row">
+            <label for="signup-password">密碼</label>
+            <input id="signup-password" type="password" name="password" />
+          </div>
+
+          <button type="submit">註冊</button>
+        </form>
+      </section>
+
+      <section class="section">
+        <h2>登入系統</h2>
+
+        <form id="login-form" action="/login" method="post">
+          <div class="form-row">
+            <label for="login-email">信箱</label>
+            <input id="login-email" type="text" name="email" />
+          </div>
+
+          <div class="form-row">
+            <label for="login-password">密碼</label>
+            <input id="login-password" type="password" name="password" />
+          </div>
+
+          <button type="submit">登入</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="/static/script.js"></script>
+  </body>
+</html>
